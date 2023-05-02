@@ -22,7 +22,6 @@
     <Folder Include="Helpers\Repositories\" />
     <Folder Include="Helpers\Services\" />
     <Folder Include="Models\Dtos\" />
-    <Folder Include="Filters\" />
   </ItemGroup>
 
 </Project>
