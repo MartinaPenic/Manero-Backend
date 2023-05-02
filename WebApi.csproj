@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,11 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\Repositories\" />
-    <Folder Include="Helpers\Services\" />
-    <Folder Include="Models\Entities\" />
-    <Folder Include="Models\Dtos\" />
     <Folder Include="Filters\" />
+    <Folder Include="Models\Dtos\" />
   </ItemGroup>
 
 </Project>
