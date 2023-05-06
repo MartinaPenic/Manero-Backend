@@ -17,14 +17,11 @@ public class UserEntity
     public string LastName { get; set; }
 
     [Required]
+    [EmailAddress]
     public string Email { get; set; }
 
     [Required]
     public IdentityUser User { get; set; }
 
-    [Required]
-    [ForeignKey(nameof(Address))]
-    public int AddressId { get; set; }
-
-    public AddressEntity Address { get; set; }
+    public ICollection<UserAddressEntity> UserAddresses { get; set; } = new HashSet<UserAddressEntity>();
 }

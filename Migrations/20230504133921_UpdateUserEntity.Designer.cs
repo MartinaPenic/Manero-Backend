@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Contexts;
 
@@ -11,9 +12,11 @@ using WebApi.Contexts;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230504133921_UpdateUserEntity")]
+    partial class UpdateUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,7 +177,6 @@ namespace WebApi.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
@@ -210,14 +212,12 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
-
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -269,7 +269,6 @@ namespace WebApi.Migrations
                     b.ToTable("Categories");
                 });
 
-
             modelBuilder.Entity("WebApi.Models.Entities.CreditCardEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -279,25 +278,17 @@ namespace WebApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CVV")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CardNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpirationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserID");
-
-                    b.ToTable("CreditCards");
+                    b.ToTable("CreditCardEntity");
                 });
 
             modelBuilder.Entity("WebApi.Models.Entities.ProductEntity", b =>
@@ -328,7 +319,6 @@ namespace WebApi.Migrations
                     b.Property<int?>("Discount")
                         .HasColumnType("int");
 
-
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("bit");
 
@@ -342,7 +332,6 @@ namespace WebApi.Migrations
                     b.Property<string>("PictureUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -411,6 +400,9 @@ namespace WebApi.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("CreditCardId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -424,6 +416,8 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreditCardId");
 
                     b.ToTable("UserProfiles");
                 });
@@ -479,17 +473,6 @@ namespace WebApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApi.Models.Entities.CreditCardEntity", b =>
-                {
-                    b.HasOne("WebApi.Models.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WebApi.Models.Entities.ProductEntity", b =>
                 {
                     b.HasOne("WebApi.Models.Entities.CategoryEntity", "Category")
@@ -505,7 +488,6 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("WebApi.Models.Entities.ProductEntity", "Product")
                         .WithMany("Ratings")
-
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -534,6 +516,11 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("WebApi.Models.Entities.UserEntity", b =>
                 {
+                    b.HasOne("WebApi.Models.Entities.CreditCardEntity", "CreditCard")
+                        .WithMany()
+                        .HasForeignKey("CreditCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
@@ -541,13 +528,14 @@ namespace WebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("CreditCard");
+
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebApi.Models.Entities.AddressEntity", b =>
                 {
                     b.Navigation("UserAddresses");
-
                 });
 
             modelBuilder.Entity("WebApi.Models.Entities.ProductEntity", b =>
@@ -558,7 +546,6 @@ namespace WebApi.Migrations
             modelBuilder.Entity("WebApi.Models.Entities.UserEntity", b =>
                 {
                     b.Navigation("UserAddresses");
-
                 });
 #pragma warning restore 612, 618
         }

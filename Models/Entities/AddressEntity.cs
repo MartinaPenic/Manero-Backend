@@ -16,4 +16,6 @@ public class AddressEntity
 
     [Required]
     public string City { get; set; }
+
+    public ICollection<UserAddressEntity> UserAddresses { get; set; } = new HashSet<UserAddressEntity>();
 }
