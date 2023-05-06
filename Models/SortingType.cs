@@ -3,11 +3,10 @@
 namespace WebApi.Models
 {
 	[JsonConverter(typeof(JsonStringEnumConverter))]
-	public enum Size
+	public enum SortingType
 	{
-		S,
-		M,
-		L,
-		XL
+		Men,
+		Women,
+		Kids
 	}
 }

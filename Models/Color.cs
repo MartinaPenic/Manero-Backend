@@ -3,7 +3,6 @@
 namespace WebApi.Models
 {
 	[JsonConverter(typeof(JsonStringEnumConverter))]
-
 	public enum Color
 	{
 		White,

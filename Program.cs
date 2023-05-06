@@ -1,12 +1,15 @@
+
 using Microsoft.AspNetCore.Identity;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using WebApi.Contexts;
 using WebApi.helpers;
 using WebApi.Helpers.Repositories;
 using WebApi.Helpers.Services;
+using WebApi.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -24,6 +27,13 @@ builder.Services.AddDefaultIdentity<IdentityUser>(x =>
 
 #endregion
 
+#region Repositories
+
+builder.Services.AddScoped<ProductRepo>();
+builder.Services.AddScoped<CategoryRepo>();
+
+#endregion
+
 #region Services
 
 builder.Services.AddScoped<ProductService>();
@@ -34,12 +44,29 @@ builder.Services.AddScoped<TokenGenerator>();
 
 #endregion
 
-#region Repositories
+#region AutoMapper
+var mapperConfig = new MapperConfiguration(mc =>
+{
+	mc.AddProfile(new MappingProfile());
+});
+
 
 builder.Services.AddScoped<ProductRepo>();
 builder.Services.AddScoped<CategoryRepo>();
 builder.Services.AddScoped<UserRepo>();
 builder.Services.AddScoped<AddressRepo>();
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+#endregion
+
+#region RefHandler
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+	options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
+
 
 #endregion
 
@@ -47,6 +74,7 @@ var app = builder.Build();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
