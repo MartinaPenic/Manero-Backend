@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Contexts;
+using WebApi.helpers;
 using WebApi.Helpers.Repositories;
 using WebApi.Helpers.Services;
 
@@ -14,6 +15,12 @@ builder.Services.AddSwaggerGen();
 #region Contexts
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Data")));
+builder.Services.AddDefaultIdentity<IdentityUser>(x =>
+{
+    x.User.RequireUniqueEmail = true;
+    x.SignIn.RequireConfirmedAccount = false;
+    x.Password.RequiredLength = 8;
+}).AddEntityFrameworkStores<DataContext>();
 
 #endregion
 
@@ -21,6 +28,9 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configura
 
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<AddressService>();
+builder.Services.AddScoped<TokenGenerator>();
 
 #endregion
 
@@ -28,10 +38,13 @@ builder.Services.AddScoped<CategoryService>();
 
 builder.Services.AddScoped<ProductRepo>();
 builder.Services.AddScoped<CategoryRepo>();
+builder.Services.AddScoped<UserRepo>();
+builder.Services.AddScoped<AddressRepo>();
 
 #endregion
 
 var app = builder.Build();
+app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
