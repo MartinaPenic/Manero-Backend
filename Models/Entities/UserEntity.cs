@@ -24,4 +24,10 @@ public class UserEntity
     public IdentityUser User { get; set; }
 
     public ICollection<UserAddressEntity> UserAddresses { get; set; } = new HashSet<UserAddressEntity>();
+
+    [Required]
+    public DateTime CreatedAt { get; set; }
+
+    [Required]
+    public DateTime ModifiedAt { get; set;}
 }
