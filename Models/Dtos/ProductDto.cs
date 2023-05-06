@@ -1,55 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using WebApi.Models.Entities;
 
-namespace WebApi.Models.Entities
+namespace WebApi.Models.Dtos
 {
-	public class ProductEntity
+	public class ProductDto
 	{
-		[Key]
 		public int Id { get; set; }
-
-		[Required]
 		public string Name { get; set; }
-
-		[Required]
 		public string Description { get; set; }
-
-		[Required]
 		public decimal Price { get; set; }
-
 		public int? Discount { get; set; }
-
-		[ForeignKey(nameof(Category))]
 		public int CategoryId { get; set; }
-		public CategoryEntity Category { get; set; }
-
-		[Required]
 		public Color Color { get; set; }
-
-		[Required]
 		public Size Size { get; set; }
-
-		[Required]
 		public SortingType SortingType { get; set; }
-
-		[Required]
 		public string ImageUrl { get; set; }
-
-		[Required]
 		public bool IsFeatured { get; set; }
-
-		[Required]
 		public DateTime CreatedAt { get; set; }
-
-		[Required]
 		public DateTime ModifiedAt { get; set; }
-
-		[Required]
 		public string SKU { get; set; }
-
-		[Required]
 		public string Brand { get; set; }
-
-		public List<ProductRatingEntity> ProductRatings { get; set; } = new List<ProductRatingEntity>();
+		public List<ProductRatingEntity> ProductRatings { get; set; }
+		public decimal AverageRating => (ProductRatings?.Count is 0) ? 0 : (decimal)ProductRatings.Average(r => r.Rating);
 	}
 }

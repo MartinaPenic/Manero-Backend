@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using WebApi.Models.Entities;
 
-namespace WebApi.Models.Entities
+namespace WebApi.Models.Dtos
 {
-	public class ProductEntity
+	public class AddProductDto
 	{
-		[Key]
-		public int Id { get; set; }
-
 		[Required]
 		public string Name { get; set; }
 
@@ -19,9 +16,8 @@ namespace WebApi.Models.Entities
 
 		public int? Discount { get; set; }
 
-		[ForeignKey(nameof(Category))]
+		[Required]
 		public int CategoryId { get; set; }
-		public CategoryEntity Category { get; set; }
 
 		[Required]
 		public Color Color { get; set; }
@@ -39,17 +35,10 @@ namespace WebApi.Models.Entities
 		public bool IsFeatured { get; set; }
 
 		[Required]
-		public DateTime CreatedAt { get; set; }
-
-		[Required]
-		public DateTime ModifiedAt { get; set; }
-
-		[Required]
 		public string SKU { get; set; }
 
 		[Required]
 		public string Brand { get; set; }
 
-		public List<ProductRatingEntity> ProductRatings { get; set; } = new List<ProductRatingEntity>();
 	}
 }
