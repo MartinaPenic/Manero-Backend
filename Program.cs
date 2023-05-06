@@ -8,12 +8,24 @@ using WebApi.helpers;
 using WebApi.Helpers.Repositories;
 using WebApi.Helpers.Services;
 using WebApi.Mapper;
+using Microsoft.OpenApi.Models;
+using WebApi.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+#region Swagger
+
+builder.Services.AddSwaggerGen(config =>
+{
+	config.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "V1" });
+	config.OperationFilter<ApiHeaderParameter>();
+});
+
+#endregion
 
 #region Contexts
 
@@ -76,6 +88,13 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseHttpsRedirection();
+
+#region Middleware
+
+app.UseMiddleware<ApiKeyMiddleware>();
+
+#endregion'
+
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
