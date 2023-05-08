@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Contexts;
+using WebApi.Models.Dtos;
 using WebApi.Models.Entities;
 
 namespace WebApi.Helpers.Repositories
@@ -32,9 +33,18 @@ namespace WebApi.Helpers.Repositories
 			}
 		}
 
-		public async Task<ShowcaseEntity> GetNewShowcaseAsync()
+		public async Task<ShowcaseDto> GetNewShowcaseAsync()
 		{
-			return await _context.Showcases.OrderByDescending(s => s.CreatedAt).FirstOrDefaultAsync();
+			var showcase = await _context.Showcases.OrderByDescending(s => s.CreatedAt).FirstOrDefaultAsync();
+
+			return _mapper.Map<ShowcaseDto>(showcase);
+		}
+
+		public async Task<ICollection<ShowcaseDto>> GetAllShowcasesAsync()
+		{
+			var showcases = await _context.Showcases.ToListAsync();
+
+			return _mapper.Map<ICollection<ShowcaseDto>>(showcases);
 		}
 	}
 }
