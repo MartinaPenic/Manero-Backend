@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using WebApi.Helpers.Repositories;
 using WebApi.Models.Dtos;
 using WebApi.Models.Entities;
@@ -8,12 +7,12 @@ namespace WebApi.Helpers.Services
 {
 	public class ShowcaseService
 	{
-		private readonly ShowcaseRepo _showcaseRepository;
+		private readonly ShowcaseRepo _showcaseRepo;
 		private readonly IMapper _mapper;
 
-		public ShowcaseService(ShowcaseRepo showcaseRepository, IMapper mapper)
+		public ShowcaseService(ShowcaseRepo showcaseRepo, IMapper mapper)
 		{
-			_showcaseRepository = showcaseRepository;
+			_showcaseRepo = showcaseRepo;
 			_mapper = mapper;
 		}
 
@@ -21,17 +20,17 @@ namespace WebApi.Helpers.Services
 		{
 			var entity = _mapper.Map<ShowcaseEntity>(dto);
 			entity.CreatedAt = DateTime.Now;
-			return await _showcaseRepository.AddShowcaseAsync(entity);
+			return await _showcaseRepo.AddShowcaseAsync(entity);
 		}
 
 		public async Task<ShowcaseDto> GetNewShowcaseAsync()
 		{
-			return await _showcaseRepository.GetNewShowcaseAsync();
+			return await _showcaseRepo.GetNewShowcaseAsync();
 		}
 
 		public async Task<ICollection<ShowcaseDto>> GetAllShowcasesAsync()
 		{
-			return await _showcaseRepository.GetAllShowcasesAsync();
+			return await _showcaseRepo.GetAllShowcasesAsync();
 		}
 	}
 }

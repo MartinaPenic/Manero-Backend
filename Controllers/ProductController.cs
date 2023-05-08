@@ -17,11 +17,11 @@ namespace WebApi.Controllers
 
 		[Route("create")]
 		[HttpPost]
-		public async Task<IActionResult> AddProduct(AddProductDto newProduct)
+		public async Task<IActionResult> AddProduct(AddProductDto dto)
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 
-			var result = await _productService.AddProductAsync(newProduct);
+			var result = await _productService.AddProductAsync(dto);
 
 			if (result) return Ok();
 			return StatusCode(500);
@@ -99,12 +99,12 @@ namespace WebApi.Controllers
 
 		[Route("{productId}/ratings/create")]
 		[HttpPost]
-		public async Task<IActionResult> AddProductRating(int productId, AddProductRatingDto productRating)
+		public async Task<IActionResult> AddProductRating(int productId, AddProductRatingDto dto)
 		{
 			var product = await _productService.GetProductAsync(productId);
 			if (product is null) return NotFound();
 
-			var result = await _productService.AddProductRatingAsync(productId, productRating);
+			var result = await _productService.AddProductRatingAsync(productId, dto);
 
 			if (result) return Ok();
 			return StatusCode(500);

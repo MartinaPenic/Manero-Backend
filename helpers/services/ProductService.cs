@@ -11,9 +11,9 @@ namespace WebApi.Helpers.Services
 		private readonly IMapper _mapper;
 
 
-		public ProductService(ProductRepo productRepository, IMapper mapper)
+		public ProductService(ProductRepo productRepo, IMapper mapper)
 		{
-			_productRepo = productRepository;
+			_productRepo = productRepo;
 			_mapper = mapper;
 		}
 
@@ -61,9 +61,9 @@ namespace WebApi.Helpers.Services
 			return await _productRepo.GetProductRatingsAsync(productId);
 		}
 
-		public async Task<bool> AddProductRatingAsync(int productId, AddProductRatingDto productRating)
+		public async Task<bool> AddProductRatingAsync(int productId, AddProductRatingDto dto)
 		{
-			var entity = _mapper.Map<ProductRatingEntity>(productRating);
+			var entity = _mapper.Map<ProductRatingEntity>(dto);
 			entity.ProductId = productId;
 			entity.CreatedAt = DateTime.Now;
 

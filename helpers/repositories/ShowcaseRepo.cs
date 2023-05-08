@@ -26,11 +26,7 @@ namespace WebApi.Helpers.Repositories
 				await _context.SaveChangesAsync();
 
 				return true;
-			}
-			catch
-			{
-				return false;
-			}
+			} catch { return false; }
 		}
 
 		public async Task<ShowcaseDto> GetNewShowcaseAsync()

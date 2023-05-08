@@ -18,18 +18,14 @@ namespace WebApi.Helpers.Repositories
 			_mapper = mapper;
 		}
 
-		public async Task<bool> AddProductAsync(ProductEntity newProduct)
+		public async Task<bool> AddProductAsync(ProductEntity entity)
 		{
 			try
 			{
-				_context.Products.Add(newProduct);
+				_context.Products.Add(entity);
 				await _context.SaveChangesAsync();
 				return true;
-			}
-			catch
-			{
-				return false;
-			}
+			} catch { return false; }
 		}
 
 		public async Task<ICollection<ProductDto>> GetFeaturedProductsAsync()
@@ -93,11 +89,11 @@ namespace WebApi.Helpers.Repositories
 
 		// ProductRating
 
-		public async Task<bool> AddProductRatingAsync(ProductRatingEntity productRating)
+		public async Task<bool> AddProductRatingAsync(ProductRatingEntity entity)
 		{
 			try
 			{
-				_context.ProductRatings.Add(productRating);
+				_context.ProductRatings.Add(entity);
 				await _context.SaveChangesAsync();
 
 				return true;
