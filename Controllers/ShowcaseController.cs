@@ -27,7 +27,6 @@ namespace WebApi.Controllers
 			return StatusCode(500);
 		}
 
-
 		[Route("new")]
 		[HttpGet]
 		public async Task<IActionResult> GetNewShowcase()
