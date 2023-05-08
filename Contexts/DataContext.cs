@@ -17,5 +17,6 @@ public class DataContext : IdentityDbContext
     public DbSet<ProductRatingEntity> ProductRatings { get; set; }
     public DbSet<UserAddressEntity> UserAddresses { get; set; }
     public DbSet<CreditCardEntity> CreditCards { get; set;}
+	public DbSet<ShowcaseEntity> Showcases { get; set; }
 
 }

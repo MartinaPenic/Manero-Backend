@@ -45,16 +45,18 @@ builder.Services.AddDefaultIdentity<IdentityUser>(x =>
 #region Repositories
 
 builder.Services.AddScoped<ProductRepo>();
-builder.Services.AddScoped<CategoryRepo>();
+builder.Services.AddScoped<UserRepo>();
+builder.Services.AddScoped<AddressRepo>();
+builder.Services.AddScoped<ShowcaseRepo>();
 
 #endregion
 
 #region Services
 
 builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<AddressService>();
+builder.Services.AddScoped<ShowcaseService>();
 builder.Services.AddScoped<TokenGenerator>();
 
 #endregion
@@ -65,11 +67,6 @@ var mapperConfig = new MapperConfiguration(mc =>
 	mc.AddProfile(new MappingProfile());
 });
 
-
-builder.Services.AddScoped<ProductRepo>();
-builder.Services.AddScoped<CategoryRepo>();
-builder.Services.AddScoped<UserRepo>();
-builder.Services.AddScoped<AddressRepo>();
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 

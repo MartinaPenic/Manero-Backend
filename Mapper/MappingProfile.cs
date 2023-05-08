@@ -13,6 +13,7 @@ namespace WebApi.Mapper
 			CreateMap<AddProductDto, ProductEntity>();
 			CreateMap<AddProductRatingDto, ProductRatingEntity>();
 			CreateMap<ProductEntity, ProductDto>();
+			CreateMap<AddShowcaseDto, ShowcaseEntity>();
 
 		} 
     }
