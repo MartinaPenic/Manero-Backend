@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Helpers.Repositories;
 using WebApi.Models.Dtos;
 using WebApi.Models.Entities;
@@ -23,9 +24,14 @@ namespace WebApi.Helpers.Services
 			return await _showcaseRepository.AddShowcaseAsync(entity);
 		}
 
-		public async Task<ShowcaseEntity> GetNewShowcaseAsync()
+		public async Task<ShowcaseDto> GetNewShowcaseAsync()
 		{
 			return await _showcaseRepository.GetNewShowcaseAsync();
+		}
+
+		public async Task<ICollection<ShowcaseDto>> GetAllShowcasesAsync()
+		{
+			return await _showcaseRepository.GetAllShowcasesAsync();
 		}
 	}
 }

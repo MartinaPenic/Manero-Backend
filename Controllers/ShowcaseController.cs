@@ -36,5 +36,15 @@ namespace WebApi.Controllers
 			if (showcase is null) return NoContent();
 			return Ok(showcase);
 		}
+
+		[Route("all")]
+		[HttpGet]
+		public async Task<IActionResult> GetAllShowcases()
+		{
+			var showcases = await _showcaseService.GetAllShowcasesAsync();
+
+			if (showcases.Count() == 0) return NoContent();
+			return Ok(showcases);
+		}
 	}
 }

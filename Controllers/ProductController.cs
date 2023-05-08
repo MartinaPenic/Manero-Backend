@@ -120,7 +120,6 @@ namespace WebApi.Controllers
 			return Ok(products);
 		}
 
-
 		[Route("sort/oldest-date")]
 		[HttpGet]
 		public async Task<IActionResult> SortByOldestDate()
